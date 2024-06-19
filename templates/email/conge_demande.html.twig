@@ -1,0 +1,21 @@
+<head>
+    <link rel="stylesheet" href="{{ asset('assets/styles/style.css') }}">
+</head>
+<body>
+    <div class="container1">
+        <div class="header1">Notification de demande congé</div>
+        <div class="content1">
+            <p>Bonjour {{ conge.user.username }},</p>
+            <p>Une nouvelle demande de congé a été envoyée</p>
+            <ul>
+                <li>Date de début : {{ conge.startDate|date('d-m-Y') }}</li>
+                <li>Date de fin : {{ conge.endDate|date('d-m-Y') }}</li>
+                <li>Type de congé : {{ conge.type.label }}</li>
+            </ul>
+         
+        <div class="footer1">
+            <p>Merci,</p>
+            <p>L'équipe de gestion des congés Adéo</p>
+        </div>
+    </div>
+</body>

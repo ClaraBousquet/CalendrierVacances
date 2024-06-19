@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Conges v2!{% endblock %}
+
+{% block body %}
+
+<div id='calendar-container'>
+    <div id='calendar'></div>
+</div>
+
+<!-- Modale de Détails du Jour -->
+<div id="dayDetailsModal" class="modal center-text">
+    <div class="modal-content">
+<span class="close ">×</span>       
+ <h2>Détails du Jour</h2>
+        <p id="selectedDate"></p>
+        <div id="eventList">
+
+            <h3>Congés ce jour :</h3>
+            <table id="congeTable">
+                <thead>
+                    <tr>
+                        <th>Collaborateur</th>
+                        <th>Date de début</th>
+                        <th>Date de fin</th>
+                        <th>Statut</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <!-- Ajout de la case à cocher "Demi-journée" -->
+        <div>
+            <label>
+                <input type="checkbox" id="halfDayCheckbox" name="halfDayCheckbox"> Demi-journée
+            </label>
+        </div>
+
+        <!-- Boutons radio "Matin" et "Après-midi" -->
+        <div id="halfDayOptions" style="display:none;">
+            <label>
+                <input type="radio" name="halfDayOption" value="Matin"> Matin (9H00 - 12H00)
+            </label>
+            <label>
+                <input type="radio" name="halfDayOption" value="Après-midi"> Après-midi (14H00 - 18H00)
+            </label>
+        </div>
+
+        <button class="btn">Créer Congé</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}
+{% set isAdmin = is_granted('ROLE_ADMIN') ? 'true' : 'false' %}
+
+{% block javascripts %}
+
+    <script src="{{ asset('assets/js/request.js') }}" defer></script>
+    <script src="{{ asset('assets/js/calendar.js') }}" defer></script>
+    <script src="{{ asset('assets/js/servicesDropdown.js')}}" defer></script>
+
+
+
+    <script>
+        var isAdmin = "{{ isAdmin }}";
+
+       document.addEventListener('DOMContentLoaded', function() {
+            var halfDayCheckbox = document.getElementById('halfDayCheckbox');
+           var halfDayOptions = document.getElementById('halfDayOptions');
+
+           halfDayCheckbox.addEventListener('change', function() {
+               if (halfDayCheckbox.checked) {
+                   halfDayOptions.style.display = 'block';
+               } else {
+                   halfDayOptions.style.display = 'none';
+               }
+           });
+
+       });
+    </script>
+{% endblock %}

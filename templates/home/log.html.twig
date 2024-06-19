@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Historique {% endblock %}
+
+{% block body %}
+    <table id="logUser" class="display">
+        <thead>
+        <tr>
+            <th data-priority="1">Date enregistrement</th>
+            <th data-priority="2">Initié par</th>
+            <th data-priority="3">Action</th>
+            <th>Conges</th>
+            <th>Collaborateur</th>
+            <th>Type du congés</th>
+            <th>Début</th>
+            <th>Fin</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in logConges %}
+            <tr>
+                <td><span style="display: none">{{ log.date | date('Y-m-d H:i:s') }}</span>{{ log.date | date('d/m/Y H:i:s') }}</td>
+                <td>{{ log.userInitiative.username }}</td>
+                <td>{{ log.type }}</td>
+                <td><a href="#">id: {{log.conges.id}}</a></td>
+                <td>{{ log.user.username }}</td>
+                <td>{{ log.conges.type.label }}</td>
+                <td>{{ log.conges.startDate | date('d/m/Y') }}</td>
+                <td>{{ log.conges.endDate | date('d/m/Y') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready( function () {
+            $('#logUser').DataTable();
+        } );
+
+        let table = new DataTable('#logUser', {
+            "paging": true,
+            "searching": true,
+            "order": [[0, 'desc']],
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "search": "Recherche:",
+                "emptyTable": "Aucune données",
+                "info": "Lignes _START_ à _END_ sur un total de _TOTAL_",
+                "lengthMenu": "Voir _MENU_ lignes",
+                "zeroRecords": "rien trouvé",
+                "paginate": {
+                    "first": "Debut",
+                    "last": "Fin",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            }
+        });
+    </script>
+
+{% endblock %}
+

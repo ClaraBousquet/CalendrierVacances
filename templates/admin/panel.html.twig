@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panel ADMIN{% endblock %}
+
+{% block body %}
+    <div class="conge-header">
+        <div></div>
+        <h1 class="conge">Panel ADMIN</h1>
+        <div></div>
+    </div>
+    <div class="conge-list tables-container"> 
+        <div class="col w-3">
+            <div class="table-head">
+                <h2>Collaborateurs</h2>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>username</th>
+                    <th>email</th>
+                    <th>service</th>
+                    <th>option</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td class="space-right">{{ user.username }}</td>
+                        <td class="space-right">{{ user.email }}</td>
+                        <td class="space-right">{% if user.service is not null %} {{ user.service.label }} {% endif %}</td>
+                        <td class="space-right">
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun user trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col w-3">
+            <div class="table-head">
+                <h2 class="serv">Types</h2>
+                <a href="{{ path('app_type_new') }}" class="dropbtn">Ajouter types</a>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>label</th>
+                    <th>cadre</th>
+                    <th>restricted user</th>
+                    <th>option</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for type in types %}
+                    <tr>
+                        <td class="space-right">{{ type.label }}</td>
+                        <td class="space-right">{{ type.requiresIsCadre ? 'OUI' : 'NON' }}</td>
+                        <td class="space-right">{{ type.isRestrictedUser ? 'OUI' : 'NON' }}</td>
+                        <td class="space-right">
+                            <a href="{{ path('app_type_edit', {'id': type.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun user trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col w-3">
+            <div class="table-head">
+                <h2 class="serv">Services</h2>
+                <a href="{{ path('app_services_new') }}" class="dropbtn">Ajouter service</a>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>label</th>
+                    <th>couleur</th>
+                    <th>option</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for service in services %}
+                    <tr>
+                        <td class="space-right">{{ service.label }}</td>
+                        <td class="space-right">{{ service.couleur }}</td>
+                        <td class="space-right">
+                            <a href="{{ path('app_services_edit', {'id': service.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun user trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

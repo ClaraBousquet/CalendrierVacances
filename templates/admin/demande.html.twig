@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande{% endblock %}
+
+{% block body %}
+<div class="conge-header">
+    <h1 class="conges">Demandes de congés</h1>
+</div>
+
+<div class="">
+    <div class="tabb">
+        <h2 class="conge">Congés en attente</h2>
+        <table id="congesEnAttenteTable" class="center-text tabb" style="overflow: scroll;">
+            <thead>
+                <tr class="space-right title">
+                    <th>Utilisateur</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Date de creation</th>
+                    <th>Type de congé</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody style="overflow: scroll">
+                {% for conge in conges %}
+                    {% if conge.statut == 'en attente' %}
+                    <tr>
+                        <td class="space-right title">{{ conge.user.username }}</td>
+                        <td class="space-right title">{{ conge.startDate|date('d/m/Y') }}</td>
+                        <td class="space-right title">{{ conge.endDate|date('d/m/Y') }}</td>
+                        <td class="space-right title">{{ conge.createdAt ? conge.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        <td class="space-right title">{{ conge.type.label }} {% if conge.demiJournee is not null %} - {{ conge.demiJournee }} {% endif %}</td>
+                        <td class="space-right title">{{ conge.statut }}</td>
+                        <td class="space-right title">
+                            <a href="{{ path('validate_conge', {id: conge.id}) }}" class="btn btn-success bu">Accepter</a>
+                            <a href="{{ path('refuse_conge', {id: conge.id}) }}" class="btn btn-danger bu">Refuser</a>
+                            <a href="{{ path('cancel_conge', {id: conge.id}) }}" class="btn btn-secondary">Annuler</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tabb">
+        <h2 class="conge">Historique</h2>
+        <table id="autresCongesTable" class="center-text tabb" style="overflow: scroll;">
+            <thead>
+                <tr class="space-right title">
+                    <th>Utilisateur</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Date création</th>
+                    <th>Type de congé</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conge in conges %}
+                    {% if conge.statut != 'en attente' %}
+                    <tr>
+                        <td class="space-right">{{ conge.user.username }}</td>
+                        <td class="space-right">{{ conge.startDate|date('d/m/Y') }}</td>
+                        <td class="space-right">{{ conge.endDate|date('d/m/Y') }}</td>
+                        <td class="space-right">{{ conge.createdAt ? conge.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        <td class="space-right">{{ conge.type.label }} {% if conge.demiJournee is not null %} - {{ conge.demiJournee }} {% endif %}</td>
+                        <td class="space-right">{{ conge.statut }}</td>
+                        <td class="space-right">
+                            <a href="{{ path('validate_conge', {id: conge.id}) }}" class="btn btn-success">Accepter</a>
+                            <a href="{{ path('refuse_conge', {id: conge.id}) }}" class="btn btn-danger">Refuser</a>
+                            <a href="{{ path('cancel_conge', {id: conge.id}) }}" class="btn btn-secondary">Annuler</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+    <script>
+        $(document).ready( function () {
+            $('#congesEnAttenteTable').DataTable()
+            $('#autresCongesTable').DataTable()
+        } );
+
+        let attente = new DataTable('#congesEnAttenteTable', {
+            "paging": true,
+            "searching": true,
+            "order": [[1, 'asc']],
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "search": "Recherche:",
+                "emptyTable": "Aucune données",
+                "info": "Lignes _START_ à _END_ sur un total de _TOTAL_",
+                "lengthMenu": "Voir _MENU_ lignes",
+                "zeroRecords": "rien trouvé",
+                "paginate": {
+                    "first": "Debut",
+                    "last": "Fin",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            }
+        });
+
+        let historique = new DataTable('#autresCongesTable', {
+            "paging": true,
+            "searching": true,
+            "order": [[3, 'desc']],
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "search": "Recherche:",
+                "emptyTable": "Aucune données",
+                "info": "Lignes _START_ à _END_ sur un total de _TOTAL_",
+                "lengthMenu": "Voir _MENU_ lignes",
+                "zeroRecords": "rien trouvé",
+                "paginate": {
+                    "first": "Debut",
+                    "last": "Fin",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                },
+            }
+        });
+    </script>
+{% endblock %}

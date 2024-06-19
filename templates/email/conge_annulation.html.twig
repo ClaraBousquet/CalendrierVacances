@@ -1,0 +1,23 @@
+<head>
+    <link rel="stylesheet" href="{{ asset('assets/styles/style.css') }}">
+</head>
+<body>
+    <div class="container1">
+        <div class="header1">Demande d'annulation de congé</div>
+        <div class="content1">
+            <p>Bonjour,</p>
+            <p>Une  demande d'annulation de congé de  {{ conge.user.username }} a été effectué</p>
+            <ul>
+                <li>{{ conge.user.username }} {{conge.user.email}}</li>
+                <li> Date de début : {{ conge.startDate|date('d-m-Y') }}  </li>
+                <li> Date de fin : {{ conge.endDate|date('d-m-Y') }}</li>
+                <li> Type de congé : {{ conge.type.label }}</li>
+            </ul>
+         
+         <p><a href="{{ url('cancel_conge', {'id': conge.id}) }}" >Confirmer l'annulation du congé</a></p>
+        <div class="footer1">
+            <p>Merci,</p>
+            <p>L'équipe de gestion des congés Adéo</p>
+        </div>
+    </div>
+</body>

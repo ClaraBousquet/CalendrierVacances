@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calendrier {% block title %}Congés{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="{{asset('assets/styles/style.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/styles/calendar.css')}}">
+        <link href="{{asset('assets/styles/datatables.min.css')}}" rel="stylesheet">
+
+
+        {% block stylesheets %}{% endblock %}
+
+        {% block javascripts %}
+
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        <script src="{{ asset('assets/js/modules/jquery-3.7.1.min.js') }}"></script>
+        <script src='{{ asset('assets/js/modules/fullcalendar-6.1.14.global.min.js') }}'></script>
+        <script src="{{ asset('assets/js/modules/datatables.min.js') }}"></script>
+        </head>
+    <body>
+        {% include '_partials/_nav.html.twig' %}
+        {% include '_partials/_errorPage.html.twig' %}
+        {% include '_partials/_successPage.html.twig' %}
+
+        {% block body %}{% endblock %}
+        <!-- Modale user -->
+        {% if app.user %}
+            <div id="userDetailsModal" class="modal">
+                <div class="modal-contente">
+                    <span class="close ">&times;</span>
+                    <img src="{{asset('/assets/img/avatar.png') }}" class="img" alt="">
+                    <div id="eventList" class="eventList">
+
+                       <p>👤<b>{{ userConnecter.username }}</b></p>
+                        <p class="email">📧 {{ userConnecter.email }}</p>
+                        <p> 💻 {{ userConnecter.service.label }}</p>
+                    </div>
+                    <div>
+                        <div class="logg">
+                            <a href="{{ path('app_show_log') }}" class="dropbtn">Logs</a>
+                            <a href="{{ path('app_logout') }}" class="dropbtn">Déconnexion</a>
+                        </div>
+                    </div> </div>
+            </div>
+        {% endif %}
+    </body>
+
+</html>
+<script src="{{ asset('assets/js/userDetail.js') }}"></script>

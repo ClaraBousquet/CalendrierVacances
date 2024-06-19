@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Congés{% endblock %}
+
+{% block body %}
+<h1>Liste des Congés</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Date de Début</th>
+            <th>Date de Fin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for conge in congesPasse %}
+        <tr>
+            <td>{{ conge.id }}</td>
+            <td>{{ conge.title }}</td>
+            <td>{{ conge.startDate|date('d/m/Y H:i') }}</td>
+            <td>{{ conge.endDate|date('d/m/Y H:i') }}</td>
+            <td>
+                <a href="{{ path('app_conges_crud_show', {'id': conge.id}) }}">Voir</a>
+                <a href="{{ path('app_conges_crud_edit', {'id': conge.id}) }}">Modifier</a>
+                <form method="post" action="{{ path('app_conges_crud_delete', {'id': conge.id}) }}" onsubmit="return confirm('Êtes-vous sûr?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ conge.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">Aucun congé trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_conges_crud_new') }}" class="btn btn-success">Ajouter un Congé</a>
+{% endblock %}

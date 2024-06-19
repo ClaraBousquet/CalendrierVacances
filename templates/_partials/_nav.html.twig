@@ -1,0 +1,50 @@
+{% if app.user %}
+<div class="topbar-container topbar">
+    <div id="profilUser" >👤{{ userConnecter.username }}
+</div>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <nav class="topbar-nav">
+                <a href="{{ path('app_home') }}" class="tab {{ page == 'calendrier' ? 'active' : '' }}">Calendrier</a>
+                <a href="{{ path('app_conges_crud_index') }}" class="tab {{ page == 'conges' ? 'active' : '' }}">Mes
+                    congés</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_conges_demande') }}"
+                    class="tab {{ page == 'demande' ? 'active' : '' }}">Demandes</a>
+                <a href="{{ path('app_admin_panel') }}" class="tab {{ page == 'panel' ? 'active' : '' }}">Panel
+                    ADMIN</a>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+
+</div>
+
+    <style>
+        .tab
+        {
+            position: relative;
+            z-index: 0;
+        }
+
+
+        .tab:before
+        {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            left: 0px;
+            bottom: 0px;
+            content: '';
+            background: #F4F6F9;
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+
+        .tab:hover:before
+        {
+            height: 100%;
+        }
+    </style>
+
+{% endif %}

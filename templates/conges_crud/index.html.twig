@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conges{% endblock %}
+
+{% block body %}
+
+<div class="conge-header">
+    <h1 class="my-conges">Mes congés</h1>
+    
+    <a href="{{ path('app_conges_crud_new') }}" class="dropbtn  pit">Ajouter un nouveau congé</a>
+</div>
+
+<div class="">
+    <div class="tabb ">
+        <h2 class="conge">Conges à venir</h2>
+        <table class="center-text tabb" style="overflow: scroll">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Début du congé</th>
+                    <th>Fin du congé</th>
+                    <th>Date de création</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody style="overflow: scroll">
+                {% if app.user %}
+                    {% for conge in congesFutur %}
+                        {% if conge.user.id == app.user.id %}
+                            <tr>
+                                <td class="center-text">{{ conge.user.username }}</td>
+                                <td class="">{{ conge.startDate ? conge.startDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="">{{ conge.endDate ? conge.endDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="">{{ conge.createdAt ? conge.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="">{{ conge.statut }}</td>
+                                <td>
+                                    <a href="{{ path('request_cancel_conge', {'id': conge.id}) }}" class="btn btn-secondary">Demande d'Annulation</a>                               
+                                 </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="5">Aucun congé trouvé</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tabb">
+        <h2 class="conge">Conges passés</h2>
+        <table class="center-text tabb" style="overflow: scroll">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Début du congé</th>
+                    <th>Fin du congé</th>
+                    <th>Date de création</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody style="overflow: scroll">
+                {% if app.user %}
+                    {% for conge in congesPasse %}
+                        {% if conge.user.id == app.user.id %}
+                            <tr>
+                                <td class="center">{{ conge.user.username }}</td>
+                                <td class="center">{{ conge.startDate ? conge.startDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="center">{{ conge.endDate ? conge.endDate|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="center">{{ conge.createdAt ? conge.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                <td class="center">{{ conge.statut }}</td>
+
+                                <td>
+                                    <a href="{{ path('app_conges_crud_edit', {'id': conge.id}) }}">Modifier</a>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucun congé trouvé</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

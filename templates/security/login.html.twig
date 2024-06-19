@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="row center" style="margin-top: 80px; ">
+        <div class="card-container">
+            <div class="card">
+                <div class="card-head">
+                    <h3>Se connecter</h3>
+                </div>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {% if app.user %}
+                    <div class="">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                <form method="post" class="card-body">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}">
+
+
+                    <button class="send" type="submit">
+                        Se connecter
+                    </button>
+                </form>
+
+            </div>
+            <div class="card" style="border-radius: 0 .25rem .25rem 0">
+                <div class="card-head">
+                    <h3>Accès SSO Adeo</h3>
+                </div>
+
+                <div class="card-body">
+                    <a class="btn btn-outline-primary rounded shadow-lg" href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' }) }}">
+                        <img src="{{asset('/assets/img/entra-id-logo.webp') }}" alt="logo_microsoft_entra">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

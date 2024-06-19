@@ -1,0 +1,30 @@
+{% block title %}{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('info') %}
+        <div class="flash-message flash-success">
+
+            {{ message }}
+        </div>
+    {% endfor %}
+
+ 
+    <style>
+       
+    </style>
+
+<!-- Pour effacer le message au bout de 5 secondes -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            setTimeout(() => {
+                flashMessages.forEach(message => {
+                    message.style.opacity = '0';
+                    setTimeout(() => {
+                        message.remove();
+                    }, 500); 
+                });
+            }, 5000); 
+        });
+    </script> 
+{% endblock %}

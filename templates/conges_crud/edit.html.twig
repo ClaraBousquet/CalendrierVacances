@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Conges{% endblock %}
+
+{% block body %}
+
+<h1 class="conge">Modifier congés</h1>
+<div class="conge">
+
+
+        {{ include('conges_crud/_form.html.twig', {'button_label': 'Enregistrer modifications'}) }}
+
+        <a href="{{ path('app_conges_crud_index') }}">Retour</a>
+
+        {{ include('conges_crud/_delete_form.html.twig') }}
+</div>
+{% endblock %}

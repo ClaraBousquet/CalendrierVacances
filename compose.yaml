@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  maria:
+
+
+services:
+  # container de bdd MARIADB
+  calendrierv2base:
+    container_name: basecalendrierv2
+    image: mariadb:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      TZ: UTC
+      MYSQL_ROOT_PASSWORD: calendrierv22024
+      MYSQL_DATABASE: calendrierv2data
+      MYSQL_USER: calendrierv2user
+      MYSQL_PASSWORD: calendrierv22024
+    ports:
+      - '3306:3306'
+    volumes:
+      - maria:/var/lib/mysql
